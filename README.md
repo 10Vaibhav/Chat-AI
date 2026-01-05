@@ -1,1 +1,1 @@
-# AI-chat-app-with-Agents-and-Stream
+# AI chat app with Agents and Stream
