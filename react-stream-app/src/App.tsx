@@ -1,14 +1,15 @@
-import './App.css'
+import { ThemeProvider } from "./providers/theme-provider"
 
 function App() {
 
 
   return (
-    <>
-      <h1 className='text-3xl font-bold underline text-[red]'>
-        Welcome to Stream chat app
-      </h1>
-    </>
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <div className="h-screen bg-background">
+          Welcome to Stream Chat AI
+        </div>
+      </ThemeProvider>
+
   )
 }
 
