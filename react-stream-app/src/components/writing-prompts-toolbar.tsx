@@ -4,6 +4,7 @@ import { ScrollArea } from "./ui/scroll-area";
 import {
     Briefcase,
     ChevronDown,
+    ChevronUp,
     List,
     Minimize2,
     Palette,
@@ -79,13 +80,79 @@ export const WritingPromptsToolbar: React.FC<WritingPromptsToolbarProps> = ({ on
                     className="fixed inset-0 z-10"
                     onClick={() => setIsExpanded(false)}
                     />
+
+                    {/* Menu content */}
+                    <div className="absolute bottom-full left-0 right-0 mb-2 z-20">
+                        <div className="bg-background border rounded-lg shadow-xl mx-4">
+                            <div className="p-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                                {toolbarPrompts.map((prompt, index)=> {
+                                    const IconComponent = prompt.icon;
+
+                                    return (
+                                        <Button
+                                        key={index}
+                                        variant={"ghost"}
+                                        size={"sm"}
+                                        onClick={()=> {
+                                            onPromptSelect(prompt.text);
+                                            setIsExpanded(false);
+                                        }}
+                                        className="h-auto p-2 text-xs text-left justify-start hover:bg-muted/50"
+                                        >
+                                            <IconComponent className="h-4 w-4 mr-2 shrink-0"/>
+                                            <div className="flex-1 min-w-0">
+                                                <div className="truncate font-medium">
+                                                    {prompt.text}
+                                                </div>
+                                                <div className="text-xs text-muted-foreground mt-0.5">
+                                                    {prompt.category}
+                                                </div>
+                                            </div>
+                                        </Button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
                     </>
                 )
             }
 
             {/* Toolbar - always visible */}
-            <div>
+            <div className="bg-background border-t">
+                <div className="flex items-center px-4 py-2 gap-2">
+                    <Button
+                    variant={"ghost"}
+                    size={"sm"}
+                    onClick={()=> setIsExpanded(!isExpanded)}
+                    className="h-7 px-2 text-xs font-medium shrink-0"
+                    >
+                        {
+                            isExpanded ? (<ChevronDown className="h-4 w-4 mr-1"/>) : (<ChevronUp className="h-4 w-4 mr-1"/>)
+                        }
+                        prompts
+                    </Button>
 
+                    <ScrollArea className="flex-1 max-w-full">
+                        <div className="flex gap-1 pb-1">
+                            {toolbarPrompts.slice(0,3).map((prompt, index) => {
+                                const IconComponent = prompt.icon;
+                                return (
+                                    <Button
+                                    key={index}
+                                    variant={"outline"}
+                                    size={"sm"}
+                                    onClick={() => onPromptSelect(prompt.text)}
+                                    className="h-7 px-2 text-xs whitespace-nowrap shrink-0 hover:bg-muted/50"
+                                    >
+                                        <IconComponent className="h-3 w-3 mr-1"/>
+                                        {prompt.text}
+                                    </Button>
+                                );
+                            })}
+                        </div>
+                    </ScrollArea>
+                </div>
             </div>
         </div>
     );
